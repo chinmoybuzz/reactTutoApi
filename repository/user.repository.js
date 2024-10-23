@@ -169,7 +169,17 @@ const PASSWORD_REGEX = /[a-z]/i;
 };
 
 const Add= async(params)=>{
-  
+  try {
+        const newUser = await new Model({
+      ...params,
+      name: params.email.split("@")[0],
+      email: params.email,
+      password: createHashPassword(params.password),
+    }).save();
+  } catch (error) {
+        console.log(error);
+    return errorHandler(error, params);
+  }
 
 }
 module.exports={
